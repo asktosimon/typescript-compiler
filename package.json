@@ -1,11 +1,12 @@
 {
   "name": "@asktosimon/typescript-compiler",
   "private": false,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "main": "./dist/my-lib.umd.cjs",
   "module": "./dist/my-lib.js",
   "types": "./dist/index.d.ts",
+  "typings": "./dist/index.d.ts",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@asktosimon"
   },
