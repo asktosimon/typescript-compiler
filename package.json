@@ -7,7 +7,7 @@
   "module": "./dist/my-lib.js",
   "types": "./dist/index.d.ts",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@asktosimon"
+    "registry": "https://npm.pkg.github.com/asktosimon"
   },
   "exports": {
     ".": {
