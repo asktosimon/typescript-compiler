@@ -21,14 +21,11 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc",
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@liuli-util/vite-plugin-node": "^0.7.0",
-    "@types/node": "^20.8.2",
-    "vite": "^4.4.5",
-    "vite-plugin-dts": "^3.6.0"
+    "@types/node": "^20.8.2"
   },
   "dependencies": {
     "raw-loader": "^4.0.2",

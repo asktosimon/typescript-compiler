@@ -1,12 +1,9 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable import/extensions */
-/* eslint-disable global-require */
-/* eslint-disable import/no-webpack-loader-syntax */
+
 import * as path from "path";
-import ts from "typescript";
+import * as ts from "typescript";
 
 const libs = {
-  "es2015.d.ts": require("!raw-loader!typescript/lib/lib.es2015.d.ts"),
+  "es2015.d.ts": require("typescript/lib/lib.es2015.d.ts"),
   "dom.d.ts": require("!raw-loader!typescript/lib/lib.dom.d.ts"),
   "lib.es5.d.ts": require("!raw-loader!typescript/lib/lib.es5.d.ts"),
   "lib.es2015.d.ts": require("!raw-loader!typescript/lib/lib.es2015.d.ts"),
