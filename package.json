@@ -1,7 +1,7 @@
 {
   "name": "@asktosimon/typescript-compiler",
   "private": false,
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "main": "./dist/my-lib.umd.cjs",
   "module": "./dist/my-lib.js",
@@ -16,6 +16,9 @@
       "require": "./dist/my-lib.umd.cjs"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
