@@ -1,7 +1,7 @@
 {
   "name": "@asktosimon/typescript-compiler",
   "private": false,
-  "version": "0.0.8",
+  "version": "0.0.9",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -31,6 +31,7 @@
     "vite-plugin-dts": "^3.6.0"
   },
   "dependencies": {
+    "raw-loader": "^4.0.2",
     "typescript": "^5.2.2"
   }
 }
