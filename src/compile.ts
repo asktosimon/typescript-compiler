@@ -1,23 +1,24 @@
 
 import * as path from "path";
 import * as ts from "typescript";
+const fs = require('fs');
 
 const libs = {
-  "es2015.d.ts": require("typescript/lib/lib.es2015.d.ts"),
-  "dom.d.ts": require("typescript/lib/lib.dom.d.ts"),
-  "lib.es5.d.ts": require("typescript/lib/lib.es5.d.ts"),
-  "lib.es2015.d.ts": require("typescript/lib/lib.es2015.d.ts"),
-  "lib.es2015.core.d.ts": require("typescript/lib/lib.es2015.core.d.ts"),
-  "lib.es2015.collection.d.ts": require("typescript/lib/lib.es2015.collection.d.ts"),
-  "lib.es2015.generator.d.ts": require("typescript/lib/lib.es2015.generator.d.ts"),
-  "lib.es2015.promise.d.ts": require("typescript/lib/lib.es2015.promise.d.ts"),
-  "lib.es2015.iterable.d.ts": require("typescript/lib/lib.es2015.iterable.d.ts"),
-  "lib.es2015.proxy.d.ts": require("typescript/lib/lib.es2015.proxy.d.ts"),
-  "lib.es2015.reflect.d.ts": require("typescript/lib/lib.es2015.reflect.d.ts"),
-  "lib.es2015.symbol.d.ts": require("typescript/lib/lib.es2015.symbol.d.ts"),
-  "lib.decorators.d.ts": require("typescript/lib/lib.decorators.d.ts"),
-  "lib.decorators.legacy.d.ts": require("typescript/lib/lib.decorators.legacy.d.ts"),
-  "lib.es2015.symbol.wellknown.d.ts": require("typescript/lib/lib.es2015.symbol.wellknown.d.ts"),
+  "es2015.d.ts": fs.readFileSync('node_modules/typescript/lib/lib.es2015.d.ts', 'utf8'),
+  "dom.d.ts": fs.readFileSync('node_modules/typescript/lib/lib.dom.d.ts', 'utf8'),
+  "lib.es5.d.ts": fs.readFileSync('node_modules/typescript/lib/lib.es5.d.ts', 'utf8'),
+  "lib.es2015.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.d.ts"),
+  "lib.es2015.core.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.core.d.ts"),
+  "lib.es2015.collection.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.collection.d.ts"),
+  "lib.es2015.generator.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.generator.d.ts"),
+  "lib.es2015.promise.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.promise.d.ts"),
+  "lib.es2015.iterable.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.iterable.d.ts"),
+  "lib.es2015.proxy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.proxy.d.ts"),
+  "lib.es2015.reflect.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.reflect.d.ts"),
+  "lib.es2015.symbol.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.d.ts"),
+  "lib.decorators.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.d.ts"),
+  "lib.decorators.legacy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.legacy.d.ts"),
+  "lib.es2015.symbol.wellknown.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts"),
 };
 
 const compilerOptions: ts.CompilerOptions = {

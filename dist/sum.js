@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var sum = function (a) {
+const sum = (a) => {
     return a;
 };
 exports.default = sum;
