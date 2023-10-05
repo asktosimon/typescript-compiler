@@ -1,4 +1,5 @@
-const t = (r) => r;
+const o = (e) => e;
 export {
-  t as sum
+  o as compile,
+  o as sum
 };
