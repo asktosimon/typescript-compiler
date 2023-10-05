@@ -6,6 +6,9 @@
   "main": "./dist/my-lib.umd.cjs",
   "module": "./dist/my-lib.js",
   "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@typescript-compiler"
+  },
   "exports": {
     ".": {
       "import": "./dist/my-lib.js",
