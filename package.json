@@ -7,7 +7,7 @@
   "module": "./dist/my-lib.js",
   "types": "./dist/index.d.ts",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@typescript-compiler"
+    "registry": "https://npm.pkg.github.com/@asktosimon"
   },
   "exports": {
     ".": {
