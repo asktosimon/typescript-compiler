@@ -103,7 +103,7 @@ function createCompilerHost(
   };
 }
 
-export function compile(code: string): void {
+export default function compile(code: string): void {
   const host = createCompilerHost(compilerOptions, code, []);
 
   const program = ts.createProgram(['text.ts'], { target: ts.ScriptTarget.ES2015 }, host);

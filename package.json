@@ -1,10 +1,10 @@
 {
   "name": "@asktosimon/typescript-compiler",
   "private": false,
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
-  "main": "./dist/my-lib.umd.cjs",
-  "module": "./dist/my-lib.js",
+  "main": "./dist/index.umd.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "typings": "./dist/index.d.ts",
   "publishConfig": {
@@ -12,8 +12,8 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/my-lib.js",
-      "require": "./dist/my-lib.umd.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
     }
   },
   "files": [
