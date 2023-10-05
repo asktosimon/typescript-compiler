@@ -1,9 +1,9 @@
 {
   "name": "@asktosimon/typescript-compiler",
   "private": false,
-  "version": "0.0.7",
+  "version": "0.0.8",
   "type": "module",
-  "main": "./dist/index.umd.cjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "typings": "./dist/index.d.ts",
@@ -13,7 +13,7 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
+      "require": "./dist/index.js"
     }
   },
   "files": [
@@ -25,6 +25,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@liuli-util/vite-plugin-node": "^0.7.0",
     "@types/node": "^20.8.2",
     "vite": "^4.4.5",
     "vite-plugin-dts": "^3.6.0"
