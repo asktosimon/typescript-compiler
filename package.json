@@ -1,5 +1,5 @@
 {
-  "name": "typescript-compiler",
+  "name": "@asktosimon/typescript-compiler",
   "private": false,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +7,7 @@
   "module": "./dist/my-lib.js",
   "types": "./dist/index.d.ts",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/asktosimon"
+    "registry": "https://npm.pkg.github.com/@asktosimon"
   },
   "exports": {
     ".": {
