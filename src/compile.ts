@@ -117,29 +117,29 @@ export default function compile(code: string): void {
     { target: ts.ScriptTarget.ES2015 },
     host
   );
-  // const emitResult = program.emit();
+  const emitResult = program.emit();
 
-  // const allDiagnostics = ts
-  //   .getPreEmitDiagnostics(program)
-  //   .concat(emitResult.diagnostics);
+  const allDiagnostics = ts
+    .getPreEmitDiagnostics(program)
+    .concat(emitResult.diagnostics);
 
-  // allDiagnostics.forEach((diagnostic) => {
-  //   if (diagnostic.file) {
-  //     const { line, character } = ts.getLineAndCharacterOfPosition(
-  //       diagnostic.file,
-  //       diagnostic.start!
-  //     );
-  //     const message = ts.flattenDiagnosticMessageText(
-  //       diagnostic.messageText,
-  //       "\n"
-  //     );
-  //     console.log(
-  //       `${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`
-  //     );
-  //   } else {
-  //     console.log(
-  //       ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")
-  //     );
-  //   }
-  // });
+  allDiagnostics.forEach((diagnostic) => {
+    if (diagnostic.file) {
+      const { line, character } = ts.getLineAndCharacterOfPosition(
+        diagnostic.file,
+        diagnostic.start!
+      );
+      const message = ts.flattenDiagnosticMessageText(
+        diagnostic.messageText,
+        "\n"
+      );
+      console.log(
+        `${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`
+      );
+    } else {
+      console.log(
+        ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")
+      );
+    }
+  });
 }

@@ -123,28 +123,19 @@ function createCompilerHost(options, sourceText, moduleSearchLocations) {
 function compile(code) {
     var host = createCompilerHost(compilerOptions, code, []);
     var program = ts.createProgram(["text.ts"], { target: ts.ScriptTarget.ES2015 }, host);
-    // const emitResult = program.emit();
-    // const allDiagnostics = ts
-    //   .getPreEmitDiagnostics(program)
-    //   .concat(emitResult.diagnostics);
-    // allDiagnostics.forEach((diagnostic) => {
-    //   if (diagnostic.file) {
-    //     const { line, character } = ts.getLineAndCharacterOfPosition(
-    //       diagnostic.file,
-    //       diagnostic.start!
-    //     );
-    //     const message = ts.flattenDiagnosticMessageText(
-    //       diagnostic.messageText,
-    //       "\n"
-    //     );
-    //     console.log(
-    //       `${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`
-    //     );
-    //   } else {
-    //     console.log(
-    //       ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")
-    //     );
-    //   }
-    // });
+    var emitResult = program.emit();
+    var allDiagnostics = ts
+        .getPreEmitDiagnostics(program)
+        .concat(emitResult.diagnostics);
+    allDiagnostics.forEach(function (diagnostic) {
+        if (diagnostic.file) {
+            var _a = ts.getLineAndCharacterOfPosition(diagnostic.file, diagnostic.start), line = _a.line, character = _a.character;
+            var message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
+            console.log("".concat(diagnostic.file.fileName, " (").concat(line + 1, ",").concat(character + 1, "): ").concat(message));
+        }
+        else {
+            console.log(ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"));
+        }
+    });
 }
 exports.default = compile;
