@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -23,27 +34,27 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const path = __importStar(require("path"));
-const ts = __importStar(require("typescript"));
-const fs = require('fs');
-const libs = {
+var path = __importStar(require("path"));
+var ts = __importStar(require("typescript"));
+var fs = require('fs');
+var libs = {
     "es2015.d.ts": fs.readFileSync('node_modules/typescript/lib/lib.es2015.d.ts', 'utf8'),
     "dom.d.ts": fs.readFileSync('node_modules/typescript/lib/lib.dom.d.ts', 'utf8'),
     "lib.es5.d.ts": fs.readFileSync('node_modules/typescript/lib/lib.es5.d.ts', 'utf8'),
-    "lib.es2015.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.d.ts"),
-    "lib.es2015.core.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.core.d.ts"),
-    "lib.es2015.collection.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.collection.d.ts"),
-    "lib.es2015.generator.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.generator.d.ts"),
-    "lib.es2015.promise.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.promise.d.ts"),
-    "lib.es2015.iterable.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.iterable.d.ts"),
-    "lib.es2015.proxy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.proxy.d.ts"),
-    "lib.es2015.reflect.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.reflect.d.ts"),
-    "lib.es2015.symbol.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.d.ts"),
-    "lib.decorators.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.d.ts"),
-    "lib.decorators.legacy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.legacy.d.ts"),
-    "lib.es2015.symbol.wellknown.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts"),
+    "lib.es2015.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.d.ts", 'utf8'),
+    "lib.es2015.core.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.core.d.ts", 'utf8'),
+    "lib.es2015.collection.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.collection.d.ts", 'utf8'),
+    "lib.es2015.generator.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.generator.d.ts", 'utf8'),
+    "lib.es2015.promise.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.promise.d.ts", 'utf8'),
+    "lib.es2015.iterable.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.iterable.d.ts", 'utf8'),
+    "lib.es2015.proxy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.proxy.d.ts", 'utf8'),
+    "lib.es2015.reflect.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.reflect.d.ts", 'utf8'),
+    "lib.es2015.symbol.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.d.ts", 'utf8'),
+    "lib.decorators.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.d.ts", 'utf8'),
+    "lib.decorators.legacy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.legacy.d.ts", 'utf8'),
+    "lib.es2015.symbol.wellknown.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts", 'utf8'),
 };
-const compilerOptions = Object.assign(Object.assign({}, ts.getDefaultCompilerOptions()), { 
+var compilerOptions = __assign(__assign({}, ts.getDefaultCompilerOptions()), { 
     //   jsx: ts.JsxEmit.React,
     strict: false, target: ts.ScriptTarget.ES2015, esModuleInterop: true, module: ts.ModuleKind.None, suppressOutputPathCheck: true, skipLibCheck: true, skipDefaultLibCheck: true, moduleResolution: ts.ModuleResolutionKind.Node16 });
 function createCompilerHost(options, sourceText, moduleSearchLocations) {
@@ -54,24 +65,25 @@ function createCompilerHost(options, sourceText, moduleSearchLocations) {
         return ts.sys.readFile(fileName);
     }
     function getSourceFile(fileName, languageVersion) {
-        const sourceText2 = ts.sys.readFile(fileName);
-        if (Object.keys(libs).find((x) => x === fileName)) {
+        var sourceText2 = ts.sys.readFile(fileName);
+        if (Object.keys(libs).find(function (x) { return x === fileName; })) {
             // @ts-ignore
             return ts.createSourceFile(fileName, 
             // @ts-ignore
-            libs[fileName].default, languageVersion);
+            libs[fileName], languageVersion);
         }
         return sourceText2
             ? ts.createSourceFile(fileName, sourceText2, languageVersion)
             : ts.createSourceFile(fileName, sourceText, languageVersion);
     }
     function resolveModuleNames(moduleNames, containingFile) {
-        const resolvedModules = [];
-        for (const moduleName of moduleNames) {
+        var resolvedModules = [];
+        for (var _i = 0, moduleNames_1 = moduleNames; _i < moduleNames_1.length; _i++) {
+            var moduleName = moduleNames_1[_i];
             // try to use standard resolution
-            const result = ts.resolveModuleName(moduleName, containingFile, options, {
-                fileExists,
-                readFile,
+            var result = ts.resolveModuleName(moduleName, containingFile, options, {
+                fileExists: fileExists,
+                readFile: readFile,
             });
             if (result.resolvedModule) {
                 resolvedModules.push(result.resolvedModule);
@@ -79,8 +91,9 @@ function createCompilerHost(options, sourceText, moduleSearchLocations) {
             else {
                 // check fallback locations, for simplicity assume that module at location
                 // should be represented by '.d.ts' file
-                for (const location of moduleSearchLocations) {
-                    const modulePath = path.join(location, `${moduleName}.d.ts`);
+                for (var _a = 0, moduleSearchLocations_1 = moduleSearchLocations; _a < moduleSearchLocations_1.length; _a++) {
+                    var location_1 = moduleSearchLocations_1[_a];
+                    var modulePath = path.join(location_1, "".concat(moduleName, ".d.ts"));
                     if (fileExists(modulePath)) {
                         resolvedModules.push({ resolvedFileName: modulePath });
                     }
@@ -90,33 +103,35 @@ function createCompilerHost(options, sourceText, moduleSearchLocations) {
         return resolvedModules;
     }
     return {
-        getSourceFile,
-        getDefaultLibFileName: () => "lib.es2015.d.ts",
-        writeFile: (fileName, content) => {
+        getSourceFile: getSourceFile,
+        getDefaultLibFileName: function () { return "lib.es2015.d.ts"; },
+        writeFile: function (fileName, content) {
             console.log(fileName, content);
         },
-        getCurrentDirectory: () => ts.sys.getCurrentDirectory(),
-        getDirectories: (pathd) => ts.sys.getDirectories(pathd),
-        getCanonicalFileName: (fileName) => ts.sys.useCaseSensitiveFileNames ? fileName : fileName.toLowerCase(),
-        getNewLine: () => ts.sys.newLine,
-        useCaseSensitiveFileNames: () => ts.sys.useCaseSensitiveFileNames,
-        fileExists,
-        readFile,
-        resolveModuleNames,
+        getCurrentDirectory: function () { return ts.sys.getCurrentDirectory(); },
+        getDirectories: function (pathd) { return ts.sys.getDirectories(pathd); },
+        getCanonicalFileName: function (fileName) {
+            return ts.sys.useCaseSensitiveFileNames ? fileName : fileName.toLowerCase();
+        },
+        getNewLine: function () { return ts.sys.newLine; },
+        useCaseSensitiveFileNames: function () { return ts.sys.useCaseSensitiveFileNames; },
+        fileExists: fileExists,
+        readFile: readFile,
+        resolveModuleNames: resolveModuleNames,
     };
 }
 function compile(code) {
-    const host = createCompilerHost(compilerOptions, code, []);
-    const program = ts.createProgram(["text.ts"], { target: ts.ScriptTarget.ES2015 }, host);
-    const emitResult = program.emit();
-    const allDiagnostics = ts
+    var host = createCompilerHost(compilerOptions, code, []);
+    var program = ts.createProgram(["text.ts"], { target: ts.ScriptTarget.ES2015 }, host);
+    var emitResult = program.emit();
+    var allDiagnostics = ts
         .getPreEmitDiagnostics(program)
         .concat(emitResult.diagnostics);
-    allDiagnostics.forEach((diagnostic) => {
+    allDiagnostics.forEach(function (diagnostic) {
         if (diagnostic.file) {
-            const { line, character } = ts.getLineAndCharacterOfPosition(diagnostic.file, diagnostic.start);
-            const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
-            console.log(`${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`);
+            var _a = ts.getLineAndCharacterOfPosition(diagnostic.file, diagnostic.start), line = _a.line, character = _a.character;
+            var message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
+            console.log("".concat(diagnostic.file.fileName, " (").concat(line + 1, ",").concat(character + 1, "): ").concat(message));
         }
         else {
             console.log(ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"));

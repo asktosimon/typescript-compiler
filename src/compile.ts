@@ -7,18 +7,18 @@ const libs = {
   "es2015.d.ts": fs.readFileSync('node_modules/typescript/lib/lib.es2015.d.ts', 'utf8'),
   "dom.d.ts": fs.readFileSync('node_modules/typescript/lib/lib.dom.d.ts', 'utf8'),
   "lib.es5.d.ts": fs.readFileSync('node_modules/typescript/lib/lib.es5.d.ts', 'utf8'),
-  "lib.es2015.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.d.ts"),
-  "lib.es2015.core.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.core.d.ts"),
-  "lib.es2015.collection.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.collection.d.ts"),
-  "lib.es2015.generator.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.generator.d.ts"),
-  "lib.es2015.promise.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.promise.d.ts"),
-  "lib.es2015.iterable.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.iterable.d.ts"),
-  "lib.es2015.proxy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.proxy.d.ts"),
-  "lib.es2015.reflect.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.reflect.d.ts"),
-  "lib.es2015.symbol.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.d.ts"),
-  "lib.decorators.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.d.ts"),
-  "lib.decorators.legacy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.legacy.d.ts"),
-  "lib.es2015.symbol.wellknown.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts"),
+  "lib.es2015.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.d.ts", 'utf8'),
+  "lib.es2015.core.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.core.d.ts", 'utf8'),
+  "lib.es2015.collection.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.collection.d.ts", 'utf8'),
+  "lib.es2015.generator.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.generator.d.ts", 'utf8'),
+  "lib.es2015.promise.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.promise.d.ts", 'utf8'),
+  "lib.es2015.iterable.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.iterable.d.ts", 'utf8'),
+  "lib.es2015.proxy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.proxy.d.ts", 'utf8'),
+  "lib.es2015.reflect.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.reflect.d.ts", 'utf8'),
+  "lib.es2015.symbol.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.d.ts", 'utf8'),
+  "lib.decorators.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.d.ts", 'utf8'),
+  "lib.decorators.legacy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.legacy.d.ts", 'utf8'),
+  "lib.es2015.symbol.wellknown.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts", 'utf8'),
 };
 
 const compilerOptions: ts.CompilerOptions = {
@@ -54,7 +54,7 @@ function createCompilerHost(
       return ts.createSourceFile(
         fileName,
         // @ts-ignore
-        libs[fileName].default,
+        libs[fileName],
         languageVersion
       );
     }
@@ -117,29 +117,29 @@ export default function compile(code: string): void {
     { target: ts.ScriptTarget.ES2015 },
     host
   );
-  const emitResult = program.emit();
+  // const emitResult = program.emit();
 
-  const allDiagnostics = ts
-    .getPreEmitDiagnostics(program)
-    .concat(emitResult.diagnostics);
+  // const allDiagnostics = ts
+  //   .getPreEmitDiagnostics(program)
+  //   .concat(emitResult.diagnostics);
 
-  allDiagnostics.forEach((diagnostic) => {
-    if (diagnostic.file) {
-      const { line, character } = ts.getLineAndCharacterOfPosition(
-        diagnostic.file,
-        diagnostic.start!
-      );
-      const message = ts.flattenDiagnosticMessageText(
-        diagnostic.messageText,
-        "\n"
-      );
-      console.log(
-        `${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`
-      );
-    } else {
-      console.log(
-        ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")
-      );
-    }
-  });
+  // allDiagnostics.forEach((diagnostic) => {
+  //   if (diagnostic.file) {
+  //     const { line, character } = ts.getLineAndCharacterOfPosition(
+  //       diagnostic.file,
+  //       diagnostic.start!
+  //     );
+  //     const message = ts.flattenDiagnosticMessageText(
+  //       diagnostic.messageText,
+  //       "\n"
+  //     );
+  //     console.log(
+  //       `${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`
+  //     );
+  //   } else {
+  //     console.log(
+  //       ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")
+  //     );
+  //   }
+  // });
 }
