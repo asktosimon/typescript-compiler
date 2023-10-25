@@ -1,24 +1,69 @@
-
 import * as path from "path";
 import * as ts from "typescript";
-const fs = require('fs');
+
+const fs = require("fs");
 
 const libs = {
-  "es2015.d.ts": fs.readFileSync('node_modules/typescript/lib/lib.es2015.d.ts', 'utf8'),
-  "dom.d.ts": fs.readFileSync('node_modules/typescript/lib/lib.dom.d.ts', 'utf8'),
-  "lib.es5.d.ts": fs.readFileSync('node_modules/typescript/lib/lib.es5.d.ts', 'utf8'),
-  "lib.es2015.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.d.ts", 'utf8'),
-  "lib.es2015.core.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.core.d.ts", 'utf8'),
-  "lib.es2015.collection.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.collection.d.ts", 'utf8'),
-  "lib.es2015.generator.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.generator.d.ts", 'utf8'),
-  "lib.es2015.promise.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.promise.d.ts", 'utf8'),
-  "lib.es2015.iterable.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.iterable.d.ts", 'utf8'),
-  "lib.es2015.proxy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.proxy.d.ts", 'utf8'),
-  "lib.es2015.reflect.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.reflect.d.ts", 'utf8'),
-  "lib.es2015.symbol.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.d.ts", 'utf8'),
-  "lib.decorators.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.d.ts", 'utf8'),
-  "lib.decorators.legacy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.legacy.d.ts", 'utf8'),
-  "lib.es2015.symbol.wellknown.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts", 'utf8'),
+  "es2015.d.ts": fs.readFileSync(
+    "node_modules/typescript/lib/lib.es2015.d.ts",
+    "utf8"
+  ),
+  "dom.d.ts": fs.readFileSync(
+    "node_modules/typescript/lib/lib.dom.d.ts",
+    "utf8"
+  ),
+  "lib.es5.d.ts": fs.readFileSync(
+    "node_modules/typescript/lib/lib.es5.d.ts",
+    "utf8"
+  ),
+  "lib.es2015.d.ts": fs.readFileSync(
+    "node_modules/typescript/lib/lib.es2015.d.ts",
+    "utf8"
+  ),
+  "lib.es2015.core.d.ts": fs.readFileSync(
+    "node_modules/typescript/lib/lib.es2015.core.d.ts",
+    "utf8"
+  ),
+  "lib.es2015.collection.d.ts": fs.readFileSync(
+    "node_modules/typescript/lib/lib.es2015.collection.d.ts",
+    "utf8"
+  ),
+  "lib.es2015.generator.d.ts": fs.readFileSync(
+    "node_modules/typescript/lib/lib.es2015.generator.d.ts",
+    "utf8"
+  ),
+  "lib.es2015.promise.d.ts": fs.readFileSync(
+    "node_modules/typescript/lib/lib.es2015.promise.d.ts",
+    "utf8"
+  ),
+  "lib.es2015.iterable.d.ts": fs.readFileSync(
+    "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+    "utf8"
+  ),
+  "lib.es2015.proxy.d.ts": fs.readFileSync(
+    "node_modules/typescript/lib/lib.es2015.proxy.d.ts",
+    "utf8"
+  ),
+  "lib.es2015.reflect.d.ts": fs.readFileSync(
+    "node_modules/typescript/lib/lib.es2015.reflect.d.ts",
+    "utf8"
+  ),
+  "lib.es2015.symbol.d.ts": fs.readFileSync(
+    "node_modules/typescript/lib/lib.es2015.symbol.d.ts",
+    "utf8"
+  ),
+  "lib.decorators.d.ts": fs.readFileSync(
+    "node_modules/typescript/lib/lib.decorators.d.ts",
+    "utf8"
+  ),
+  "lib.decorators.legacy.d.ts": fs.readFileSync(
+    "node_modules/typescript/lib/lib.decorators.legacy.d.ts",
+    "utf8"
+  ),
+  "lib.es2015.symbol.wellknown.d.ts": fs.readFileSync(
+    "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+    "utf8"
+  ),
 };
 
 const compilerOptions: ts.CompilerOptions = {
@@ -37,7 +82,8 @@ const compilerOptions: ts.CompilerOptions = {
 function createCompilerHost(
   options: ts.CompilerOptions,
   sourceText: string,
-  moduleSearchLocations: string[]
+  moduleSearchLocations: string[],
+  writeFileCallback: (fileName: string, text: string) => void
 ): ts.CompilerHost {
   function fileExists(fileName: string): boolean {
     return ts.sys.fileExists(fileName);
@@ -94,9 +140,7 @@ function createCompilerHost(
   return {
     getSourceFile,
     getDefaultLibFileName: () => "lib.es2015.d.ts",
-    writeFile: (fileName, content) => {
-      console.log(fileName, content);
-    },
+    writeFile: writeFileCallback,
     getCurrentDirectory: () => ts.sys.getCurrentDirectory(),
     getDirectories: (pathd) => ts.sys.getDirectories(pathd),
     getCanonicalFileName: (fileName) =>
@@ -109,8 +153,20 @@ function createCompilerHost(
   };
 }
 
-export default function compile(code: string): void {
-  const host = createCompilerHost(compilerOptions, code, []);
+export default function compile(code: string): {
+  diagnosticMessages: string[];
+  result: Record<string, string>;
+} {
+  const host = createCompilerHost(
+    compilerOptions,
+    code,
+    [],
+    (fileName, text) => {
+      result[fileName] = text;
+    }
+  );
+
+  const result: Record<string, string> = {};
 
   const program = ts.createProgram(
     ["text.ts"],
@@ -123,7 +179,7 @@ export default function compile(code: string): void {
     .getPreEmitDiagnostics(program)
     .concat(emitResult.diagnostics);
 
-  allDiagnostics.forEach((diagnostic) => {
+  const diagnosticMessages = allDiagnostics.map((diagnostic) => {
     if (diagnostic.file) {
       const { line, character } = ts.getLineAndCharacterOfPosition(
         diagnostic.file,
@@ -133,13 +189,16 @@ export default function compile(code: string): void {
         diagnostic.messageText,
         "\n"
       );
-      console.log(
-        `${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`
-      );
+      return `${diagnostic.file.fileName} (${line + 1},${
+        character + 1
+      }): ${message}`;
     } else {
-      console.log(
-        ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")
-      );
+      return ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
     }
   });
+
+  return {
+    diagnosticMessages,
+    result,
+  };
 }

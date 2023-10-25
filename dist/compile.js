@@ -36,28 +36,28 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var path = __importStar(require("path"));
 var ts = __importStar(require("typescript"));
-var fs = require('fs');
+var fs = require("fs");
 var libs = {
-    "es2015.d.ts": fs.readFileSync('node_modules/typescript/lib/lib.es2015.d.ts', 'utf8'),
-    "dom.d.ts": fs.readFileSync('node_modules/typescript/lib/lib.dom.d.ts', 'utf8'),
-    "lib.es5.d.ts": fs.readFileSync('node_modules/typescript/lib/lib.es5.d.ts', 'utf8'),
-    "lib.es2015.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.d.ts", 'utf8'),
-    "lib.es2015.core.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.core.d.ts", 'utf8'),
-    "lib.es2015.collection.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.collection.d.ts", 'utf8'),
-    "lib.es2015.generator.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.generator.d.ts", 'utf8'),
-    "lib.es2015.promise.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.promise.d.ts", 'utf8'),
-    "lib.es2015.iterable.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.iterable.d.ts", 'utf8'),
-    "lib.es2015.proxy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.proxy.d.ts", 'utf8'),
-    "lib.es2015.reflect.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.reflect.d.ts", 'utf8'),
-    "lib.es2015.symbol.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.d.ts", 'utf8'),
-    "lib.decorators.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.d.ts", 'utf8'),
-    "lib.decorators.legacy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.legacy.d.ts", 'utf8'),
-    "lib.es2015.symbol.wellknown.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts", 'utf8'),
+    "es2015.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.d.ts", "utf8"),
+    "dom.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.dom.d.ts", "utf8"),
+    "lib.es5.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es5.d.ts", "utf8"),
+    "lib.es2015.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.d.ts", "utf8"),
+    "lib.es2015.core.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.core.d.ts", "utf8"),
+    "lib.es2015.collection.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.collection.d.ts", "utf8"),
+    "lib.es2015.generator.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.generator.d.ts", "utf8"),
+    "lib.es2015.promise.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.promise.d.ts", "utf8"),
+    "lib.es2015.iterable.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.iterable.d.ts", "utf8"),
+    "lib.es2015.proxy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.proxy.d.ts", "utf8"),
+    "lib.es2015.reflect.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.reflect.d.ts", "utf8"),
+    "lib.es2015.symbol.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.d.ts", "utf8"),
+    "lib.decorators.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.d.ts", "utf8"),
+    "lib.decorators.legacy.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.decorators.legacy.d.ts", "utf8"),
+    "lib.es2015.symbol.wellknown.d.ts": fs.readFileSync("node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts", "utf8"),
 };
 var compilerOptions = __assign(__assign({}, ts.getDefaultCompilerOptions()), { 
     //   jsx: ts.JsxEmit.React,
     strict: false, target: ts.ScriptTarget.ES2015, esModuleInterop: true, module: ts.ModuleKind.None, suppressOutputPathCheck: true, skipLibCheck: true, skipDefaultLibCheck: true, moduleResolution: ts.ModuleResolutionKind.Node16 });
-function createCompilerHost(options, sourceText, moduleSearchLocations) {
+function createCompilerHost(options, sourceText, moduleSearchLocations, writeFileCallback) {
     function fileExists(fileName) {
         return ts.sys.fileExists(fileName);
     }
@@ -105,9 +105,7 @@ function createCompilerHost(options, sourceText, moduleSearchLocations) {
     return {
         getSourceFile: getSourceFile,
         getDefaultLibFileName: function () { return "lib.es2015.d.ts"; },
-        writeFile: function (fileName, content) {
-            console.log(fileName, content);
-        },
+        writeFile: writeFileCallback,
         getCurrentDirectory: function () { return ts.sys.getCurrentDirectory(); },
         getDirectories: function (pathd) { return ts.sys.getDirectories(pathd); },
         getCanonicalFileName: function (fileName) {
@@ -121,21 +119,28 @@ function createCompilerHost(options, sourceText, moduleSearchLocations) {
     };
 }
 function compile(code) {
-    var host = createCompilerHost(compilerOptions, code, []);
+    var host = createCompilerHost(compilerOptions, code, [], function (fileName, text) {
+        result[fileName] = text;
+    });
+    var result = {};
     var program = ts.createProgram(["text.ts"], { target: ts.ScriptTarget.ES2015 }, host);
     var emitResult = program.emit();
     var allDiagnostics = ts
         .getPreEmitDiagnostics(program)
         .concat(emitResult.diagnostics);
-    allDiagnostics.forEach(function (diagnostic) {
+    var diagnosticMessages = allDiagnostics.map(function (diagnostic) {
         if (diagnostic.file) {
             var _a = ts.getLineAndCharacterOfPosition(diagnostic.file, diagnostic.start), line = _a.line, character = _a.character;
             var message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
-            console.log("".concat(diagnostic.file.fileName, " (").concat(line + 1, ",").concat(character + 1, "): ").concat(message));
+            return "".concat(diagnostic.file.fileName, " (").concat(line + 1, ",").concat(character + 1, "): ").concat(message);
         }
         else {
-            console.log(ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"));
+            return ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
         }
     });
+    return {
+        diagnosticMessages: diagnosticMessages,
+        result: result,
+    };
 }
 exports.default = compile;
