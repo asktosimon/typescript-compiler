@@ -1,5 +1,5 @@
-import * as path from "path";
-import * as ts from "typescript";
+import path from "path";
+import ts from "typescript";
 
 const fs = require("fs");
 
